@@ -1,8 +1,20 @@
 const express = require('express');
+const morgan = require('morgan');
+
+const tourRoutes = require('./routes/tourRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-const port = process.env.PORT || 8000;
 
-app.get('/', (req, res) => res.status(200).json({ message: 'Hello' }));
+app.use(morgan('dev'));
+app.use(express.json());
 
-app.listen(port, () => `Server running on port ${port} 🔥`);
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
+app.use('/api/v1/tours', tourRoutes);
+app.use('/api/v1/users', userRoutes);
+
+module.exports = app;
