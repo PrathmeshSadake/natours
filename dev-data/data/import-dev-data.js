@@ -37,11 +37,11 @@ const deleteData = async () => {
   try {
     await Tour.deleteMany();
     console.log('Data successfully deleted!');
+    await importData();
   } catch (error) {
     console.log(error);
   }
   process.exit();
 };
 
-// deleteData();
-// importData();
+deleteData();
