@@ -7,6 +7,18 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log('Connected to Mongo Database');
+  });
+
 const app = require('./app');
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => `Server running on port ${port}`);
